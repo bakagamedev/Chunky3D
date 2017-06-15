@@ -85,4 +85,6 @@ void Sector::Draw2D(Camera & camera,System & arduboy)
 
 		arduboy.drawLine(pointsTransformed[i].X.GetInteger(), pointsTransformed[i].Y.GetInteger(), pointsTransformed[j].X.GetInteger(), pointsTransformed[j].Y.GetInteger());
 	}
+
+	arduboy.drawPixel(screenCentre.X,screenCentre.Y);
 }
