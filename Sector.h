@@ -63,18 +63,14 @@ void Sector::Draw2D(Camera & camera,System & arduboy)
 
 	for(uint8_t i=0; i < this->pointCount; ++i)
 	{
-		pointsTransformed[i] = this->points[i];
+		FloatI pointTemp = this->points[i];
 
 		//Translate to camera position
-		pointsTransformed[i].X = pointsTransformed[i].X - cameraPosition.X;
-		pointsTransformed[i].Y = pointsTransformed[i].Y - cameraPosition.Y;
+		pointTemp = FloatI(pointTemp.X - cameraPosition.X,pointTemp.Y = pointTemp.Y - cameraPosition.Y);
 
-		//Rotate by camera angle	Not sure why it doesn't work!
-		if(cameraDirection != 0)
-		{
-			pointsTransformed[i].X = (pointsTransformed[i].X*sin(cameraDirection)) - (pointsTransformed[i].Y * cos(cameraDirection));
-			pointsTransformed[i].Y = (pointsTransformed[i].X*cos(cameraDirection)) - (pointsTransformed[i].Y * sin(cameraDirection));
-		}
+		//Rotate around camera
+		pointsTransformed[i].X = (pointTemp.X*cos(cameraDirection)) - (pointTemp.Y * sin(cameraDirection));
+		pointsTransformed[i].Y = (pointTemp.X*sin(cameraDirection)) + (pointTemp.Y * cos(cameraDirection));
 
 		//Translate back to screen centre.
 		pointsTransformed[i].X += screenCentre.X;
