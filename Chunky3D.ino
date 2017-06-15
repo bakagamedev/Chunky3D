@@ -11,6 +11,7 @@ Game game = Game(sys);
 void setup()
 {
 	sys.begin();
+	sys.setFrameRate(60);
 	game.Load();
 }
 
