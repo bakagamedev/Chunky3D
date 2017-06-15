@@ -1,0 +1,112 @@
+#ifndef ADRUTILS_COMPILER_TRAITS_H
+#define ARDUTILS_COMPILER_TRAITS_H
+
+//
+// Certain type traits require
+// compiler extensions.
+//
+
+#include "CompilerDetectStart.h"
+
+#if COMPILER_IS_GCC
+
+#include "GCC/CompilerTraits.h"
+
+#elif COMPILER_IS_MSC
+
+#include "MSC/CompilerTraits.h"
+
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_HAS_NOTHROW_ASSIGN)
+#define HAS_COMPILER_TRAIT_HAS_NOTHROW_ASSIGN false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_HAS_NOTHROW_COPY)
+#define HAS_COMPILER_TRAIT_HAS_NOTHROW_COPY false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_HAS_NOTHROW_CONSTRUCTOR)
+#define HAS_COMPILER_TRAIT_HAS_NOTHROW_CONSTRUCTOR false
+#endif
+
+
+#if !defined(HAS_COMPILER_TRAIT_HAS_TRIVIAL_ASSIGN)
+#define HAS_COMPILER_TRAIT_HAS_TRIVIAL_ASSIGN false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_HAS_TRIVIAL_COPY)
+#define HAS_COMPILER_TRAIT_HAS_TRIVIAL_COPY false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_HAS_TRIVIAL_CONSTRUCTOR)
+#define HAS_COMPILER_TRAIT_HAS_TRIVIAL_CONSTRUCTOR false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_HAS_TRIVIAL_DESTRUCTOR)
+#define HAS_COMPILER_TRAIT_HAS_TRIVIAL_DESTRUCTOR false
+#endif
+
+
+#if !defined(HAS_COMPILER_TRAIT_HAS_VIRTUAL_DESTRUCTOR)
+#define HAS_COMPILER_TRAIT_HAS_VIRTUAL_DESTRUCTOR false
+#endif
+
+
+#if !defined(HAS_COMPILER_TRAIT_IS_ABSTRACT)
+#define HAS_COMPILER_TRAIT_IS_ABSTRACT false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_IS_BASE_OF)
+#define HAS_COMPILER_TRAIT_IS_BASE_OF false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_IS_CLASS)
+#define HAS_COMPILER_TRAIT_IS_CLASS false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_IS_EMPTY)
+#define HAS_COMPILER_TRAIT_IS_EMPTY false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_IS_ENUM)
+#define HAS_COMPILER_TRAIT_IS_ENUM false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_IS_LITERAL_TYPE)
+#define HAS_COMPILER_TRAIT_IS_LITERAL_TYPE false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_IS_POD)
+#define HAS_COMPILER_TRAIT_IS_POD false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_IS_POLYMORPHIC)
+#define HAS_COMPILER_TRAIT_IS_POLYMORPHIC false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_IS_STANDARD_LAYOUT)
+#define HAS_COMPILER_TRAIT_IS_STANDARD_LAYOUT false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_IS_TRIVIAL)
+#define HAS_COMPILER_TRAIT_IS_TRIVIAL false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_IS_UNION)
+#define HAS_COMPILER_TRAIT_IS_UNION false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_UNDERLYING_TYPE)
+#define HAS_COMPILER_TRAIT_UNDERLYING_TYPE false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_ALIGNOF)
+#define HAS_COMPILER_TRAIT_ALIGNOF false
+#endif
+
+#if !defined(HAS_COMPILER_TRAIT_IS_CONVERTIBLE_TO)
+#define HAS_COMPILER_TRAIT_IS_CONVERTIBLE_TO false
+#endif
+
+#endif

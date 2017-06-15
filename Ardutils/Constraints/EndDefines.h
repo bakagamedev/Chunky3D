@@ -1,0 +1,14 @@
+#undef DefineHasBinaryEitherOperator
+#undef DefineHasBinaryMemberOperator
+#undef DefineHasBinaryFreeOperator
+#undef DefineHasBinaryOperatorAll
+
+#undef DefineHasUnaryEitherOperator
+#undef DefineHasUnaryMemberOperator
+#undef DefineHasUnaryFreeOperator
+#undef DefineHasUnaryOperatorAll
+
+#undef DefineHasBracketEitherOperator
+#undef DefineHasBracketMemberOperator
+#undef DefineHasBracketFreeOperator
+#undef DefineHasBracketOperatorAll
