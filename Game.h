@@ -37,7 +37,24 @@ void Game::Load(void)
 
 void Game::Tick(void)
 {
-	//Move camera around in here
+	///Replace with 0.1 once set up with fixed points
+	if(arduboy->pressed(UP_BUTTON))
+	{
+		camera.AddPosition(PointI(camera.GetPosition().X, camera.GetPosition().Y-1));
+		//camera.AddPosition(PointI(1 * cos(camera.GetDirection().GetInteger()), 1 * sin(camera.GetDirection().GetInteger())));
+	}
+	if(arduboy->pressed(DOWN_BUTTON))
+	{
+		camera.AddPosition(PointI(camera.GetPosition().X, camera.GetPosition().Y+1));
+	}
+	if(arduboy->pressed(LEFT_BUTTON))
+	{
+		camera.AddPosition(PointI(camera.GetPosition().X-1, camera.GetPosition().Y));
+	}
+	if(arduboy->pressed(RIGHT_BUTTON))
+	{
+		camera.AddPosition(PointI(camera.GetPosition().X+1, camera.GetPosition().Y));
+	}
 }
 
 void Game::Draw(void)
@@ -45,6 +62,8 @@ void Game::Draw(void)
 	if(!arduboy->nextFrame())
 		return;
 	arduboy->pollButtons();
+
+	Tick();
 
 	arduboy->clear();
 	map.Draw2D(camera,*arduboy);
