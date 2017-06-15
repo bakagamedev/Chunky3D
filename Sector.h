@@ -53,36 +53,36 @@ uint8_t Sector::GetPortalCount(void) const
 
 void Sector::Draw2D(Camera & camera,System & arduboy)
 {
-	PointI cameraPosition = camera.GetPosition();		//Middle of screen
-	float cameraDirection = static_cast<float>(camera.GetDirection());//.GetInteger() + (camera.GetFraction() / 256);
+	PointI cameraPosition = camera.GetPosition();		
+	PointI screenCentre = PointI(arduboy.width()/2,arduboy.height()/2);	//Middle of screen
+	
+	float cameraDirection = static_cast<float>(camera.GetDirection());	//Fix (hahahaha) point this
 	//int8_t cameraDirection = camera.GetDirection().GetInteger();
-	PointI screenCentre = PointI(arduboy.width()/2,arduboy.height()/2);
 
 	//FixedPointQ8x8 pointsTransformed[this->pointCount];
-	FloatI pointsTransformed[this->pointCount];
+	FixedPointQ8x8 pointsTransformed[this->pointCount];
 
 	for(uint8_t i=0; i < this->pointCount; ++i)
 	{
 		FloatI pointTemp = this->points[i];
 
 		//Translate to camera position
-		pointTemp = FloatI(pointTemp.X - cameraPosition.X,pointTemp.Y = pointTemp.Y - cameraPosition.Y);
+		pointTemp = FixedPointQ8x8(pointTemp.X - cameraPosition.X,pointTemp.Y = pointTemp.Y - cameraPosition.Y);
 
 		//Rotate around camera
 		pointsTransformed[i].X = (pointTemp.X*cos(cameraDirection)) - (pointTemp.Y * sin(cameraDirection));
 		pointsTransformed[i].Y = (pointTemp.X*sin(cameraDirection)) + (pointTemp.Y * cos(cameraDirection));
 
 		//Translate back to screen centre.
-		pointsTransformed[i].X += screenCentre.X;
-		pointsTransformed[i].Y += screenCentre.Y;
+		pointsTransformed[i] = FixedPointQ8x8(pointsTransformed[i].X + screenCentre.X, pointsTransformed[i].Y + screenCentre.Y);
 	}
 
 	for(uint8_t i = 0, j = 1; i < this->pointCount; ++i, ++j)
 	{
 	    if(j == this->pointCount) j = 0;
 
-		//arduboy.drawLine(pointsTransformed[i].X.GetInteger(), pointsTransformed[i].Y.GetInteger(), pointsTransformed[j].X.GetInteger(), pointsTransformed[j].Y.GetInteger());
-		arduboy.drawLine(pointsTransformed[i].X, pointsTransformed[i].Y, pointsTransformed[j].X, pointsTransformed[j].Y);
+		arduboy.drawLine(pointsTransformed[i].X.GetInteger(), pointsTransformed[i].Y.GetInteger(), pointsTransformed[j].X.GetInteger(), pointsTransformed[j].Y.GetInteger());
+		//arduboy.drawLine(pointsTransformed[i].X, pointsTransformed[i].Y, pointsTransformed[j].X, pointsTransformed[j].Y);
 	}
 
 	arduboy.drawPixel(screenCentre.X,screenCentre.Y);
