@@ -54,6 +54,7 @@ uint8_t Sector::GetPortalCount(void) const
 void Sector::Draw2D(Camera & camera,System & arduboy)
 {
 	PointI cameraPosition = camera.GetPosition();		//Middle of screen
+	int8_t cameraDirection = camera.GetDirection().GetInteger();
 	PointI screenCentre = PointI(arduboy.width()/2,arduboy.height()/2);
 
 	FixedPointQ8x8 pointsTransformed[this->pointCount];
@@ -66,9 +67,12 @@ void Sector::Draw2D(Camera & camera,System & arduboy)
 		pointsTransformed[i].X = pointsTransformed[i].X - cameraPosition.X;
 		pointsTransformed[i].Y = pointsTransformed[i].Y - cameraPosition.Y;
 
-		//Rotate by camera angle
-		//pointsTransformed[i].X = pointsTransformed[i].X*sin(-90);
-		//pointsTransformed[i].Y = pointsTransformed[i].Y*cos(-90);
+		//Rotate by camera angle	Not sure why it doesn't work!
+		if(cameraDirection != 0)
+		{
+			pointsTransformed[i].X = (pointsTransformed[i].X*sin(cameraDirection)) - (pointsTransformed[i].Y * cos(cameraDirection));
+			pointsTransformed[i].Y = (pointsTransformed[i].X*cos(cameraDirection)) - (pointsTransformed[i].Y * sin(cameraDirection));
+		}
 
 		//Translate around screen centre.
 		pointsTransformed[i].X += screenCentre.X;
