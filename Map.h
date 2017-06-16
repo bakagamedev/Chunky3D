@@ -24,6 +24,11 @@ void Map::Draw2D(Camera & camera,System & arduboy)
 	{
 		sectors[i].Draw2D(camera,arduboy);
 	}
+
+	float cameraDirection = static_cast<float>(camera.GetDirection());
+	PointI screenCentre = PointI(arduboy.width()/2,arduboy.height()/2);
+	FixedPointQ8x8 cameraVector = FixedPointQ8x8(cos(cameraDirection)*4, sin(cameraDirection)*4);
+	arduboy.drawLine(screenCentre.X, screenCentre.Y, screenCentre.X + cameraVector.X.GetInteger(), screenCentre.Y + cameraVector.Y.GetInteger());
 }
 
 

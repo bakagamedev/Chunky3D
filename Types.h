@@ -10,4 +10,4 @@ using WallIndex = uint8_t;
 
 using SectorId = uint8_t;
 
-using Angle = Ardutils::FixedPoint<9, 6>;	//1 sign, 9 integer, 5 fraction = 16
+using Angle = Ardutils::FixedPoint<4, 11>;	//1 sign, 4 integer, 11 fraction = 16

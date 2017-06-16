@@ -70,8 +70,8 @@ void Sector::Draw(Camera & camera,System & arduboy)
 		pointTemp = PointF(pointTemp.X - cameraPosition.X, pointTemp.Y - cameraPosition.Y);
 
 		//Rotate around camera
-		pointsTransformed[i].X = (pointTemp.X*cos(cameraDirection)) - (pointTemp.Y * sin(cameraDirection));
-		pointsTransformed[i].Y = (pointTemp.X*sin(cameraDirection)) + (pointTemp.Y * cos(cameraDirection));
+		pointsTransformed[i].X = (pointTemp.X*sin(cameraDirection)) - (pointTemp.Y * cos(cameraDirection));
+		pointsTransformed[i].Y = (pointTemp.X*cos(cameraDirection)) + (pointTemp.Y * sin(cameraDirection));
 	}
 
 	for(uint8_t i = 0, j = 1; i < this->pointCount; ++i, ++j)
@@ -147,7 +147,4 @@ void Sector::Draw2D(Camera & camera,System & arduboy)
 		//arduboy.drawLine(pointsTransformed[i].X.GetInteger(), pointsTransformed[i].Y.GetInteger(), pointsTransformed[j].X.GetInteger(), pointsTransformed[j].Y.GetInteger());
 		arduboy.drawLine(pointsTransformed[i].X, pointsTransformed[i].Y, pointsTransformed[j].X, pointsTransformed[j].Y);
 	}
-
-	PointF cameraVector = PointF(cos(cameraDirection)*4, sin(cameraDirection*4));
-	arduboy.drawLine(screenCentre.X, screenCentre.Y, screenCentre.X + cameraVector.X, screenCentre.Y + cameraVector.Y);
 }

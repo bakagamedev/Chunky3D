@@ -37,16 +37,17 @@ void Game::Load(void)
 
 void Game::Tick(void)
 {
-	float cameraDirection = static_cast<float>(camera.GetDirection()) * 3.14;
+	float cameraDirection = static_cast<float>(camera.GetDirection());// * (180 / 3.14);
 
 	if(arduboy->pressed(UP_BUTTON))
 	{
-		camera.AddPosition(FixedPointQ8x8(+cos(cameraDirection), +sin(cameraDirection)));
+		camera.AddPosition(FixedPointQ8x8(-cos(cameraDirection), -sin(cameraDirection)));
 	}
 	if(arduboy->pressed(DOWN_BUTTON))
 	{
-		camera.AddPosition(FixedPointQ8x8(-cos(cameraDirection), -sin(cameraDirection)));
+		camera.AddPosition(FixedPointQ8x8(+cos(cameraDirection), +sin(cameraDirection)));
 	}
+	/*
 	if(arduboy->pressed(LEFT_BUTTON))
 	{
 		camera.AddPosition(FixedPointQ8x8(-cos(cameraDirection), +sin(cameraDirection)));
@@ -55,6 +56,7 @@ void Game::Tick(void)
 	{
 		camera.AddPosition(FixedPointQ8x8(+cos(cameraDirection), -sin(cameraDirection)));
 	}
+	*/
 
 	if(arduboy->pressed(A_BUTTON))
 	{
