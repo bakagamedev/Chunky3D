@@ -28,6 +28,7 @@ public:
 	
 	uint8_t GetPortalCount(void) const;
 	
+	void Draw(Camera & camera,System & arduboy);
 	void Draw2D(Camera & camera,System & arduboy);
 };
 	
@@ -51,6 +52,55 @@ uint8_t Sector::GetPortalCount(void) const
 	return this->portalCount;
 }
 
+void Sector::Draw(Camera & camera,System & arduboy)
+{
+	PointI cameraPosition = camera.GetPosition();		//Middle of screen
+	float cameraDirection = static_cast<float>(camera.GetDirection());//.GetInteger() + (camera.GetFraction() / 256);
+	//int8_t cameraDirection = camera.GetDirection().GetInteger();
+	PointI screenCentre = PointI(arduboy.width()/2,arduboy.height()/2);
+
+	//FixedPointQ8x8 pointsTransformed[this->pointCount];
+	FloatI pointsTransformed[this->pointCount];
+
+	for(uint8_t i=0; i < this->pointCount; ++i)
+	{
+		FloatI pointTemp = this->points[i];
+
+		//Translate to camera position
+		pointTemp = FloatI(pointTemp.X - cameraPosition.X, pointTemp.Y - cameraPosition.Y);
+
+		//Rotate around camera
+		pointsTransformed[i].X = (pointTemp.X*cos(cameraDirection)) - (pointTemp.Y * sin(cameraDirection));
+		pointsTransformed[i].Y = (pointTemp.X*sin(cameraDirection)) + (pointTemp.Y * cos(cameraDirection));
+
+	}
+
+	for(uint8_t i = 0, j = 1; i < this->pointCount; ++i, ++j)
+	{
+	    if(j == this->pointCount) j = 0;
+
+	    bool ok = true;
+	    if ((pointsTransformed[i].Y > 0) && (pointsTransformed[j].Y > 0))
+	    	ok = false;
+
+	    if(ok)
+	    {
+	    	FloatI pointTempI = pointsTransformed[i];
+	    	FloatI pointTempJ = pointsTransformed[j];
+			//Translate back to screen centre.
+			pointTempI.X += screenCentre.X;
+			pointTempI.Y += screenCentre.Y;
+			pointTempJ.X += screenCentre.X;
+			pointTempJ.Y += screenCentre.Y;
+
+			arduboy.drawLine(pointTempI.X, pointTempI.Y, pointTempJ.X, pointTempJ.Y);
+		}
+	}
+
+	arduboy.drawPixel(screenCentre.X,screenCentre.Y);
+}
+
+
 void Sector::Draw2D(Camera & camera,System & arduboy)
 {
 	PointI cameraPosition = camera.GetPosition();		//Middle of screen
@@ -66,7 +116,7 @@ void Sector::Draw2D(Camera & camera,System & arduboy)
 		FloatI pointTemp = this->points[i];
 
 		//Translate to camera position
-		pointTemp = FloatI(pointTemp.X - cameraPosition.X,pointTemp.Y = pointTemp.Y - cameraPosition.Y);
+		pointTemp = FloatI(pointTemp.X - cameraPosition.X, pointTemp.Y - cameraPosition.Y);
 
 		//Rotate around camera
 		pointsTransformed[i].X = (pointTemp.X*cos(cameraDirection)) - (pointTemp.Y * sin(cameraDirection));
