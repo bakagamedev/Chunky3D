@@ -80,20 +80,33 @@ void Sector::Draw(Camera & camera,System & arduboy)
 	    if(j == this->pointCount) j = 0;
 
 	    bool ok = true;
-	    if ((pointsTransformed[i].Y > 0) && (pointsTransformed[j].Y > 0))
+	    if ((pointsTransformed[i].Y > 0) or (pointsTransformed[j].Y > 0))
 	    	ok = false;
 
 	    if(ok)
 	    {
-	    	FloatI pointTempI = pointsTransformed[i];
-	    	FloatI pointTempJ = pointsTransformed[j];
-			//Translate back to screen centre.
-			pointTempI.X += screenCentre.X;
-			pointTempI.Y += screenCentre.Y;
-			pointTempJ.X += screenCentre.X;
-			pointTempJ.Y += screenCentre.Y;
+	    	FloatI pointTempI, pointTempJ;
 
-			arduboy.drawLine(pointTempI.X, pointTempI.Y, pointTempJ.X, pointTempJ.Y);
+	    	//Stretch X coordinate horizontally on inverse of distance (FOV)
+	    	const int16_t FOV = 8;
+  
+	    	pointTempI.X = pointsTransformed[i].X * (FOV / pointsTransformed[i].Y);
+		    pointTempJ.X = pointsTransformed[j].X * (FOV / pointsTransformed[j].Y);
+
+		    //And vertically, for height;
+		    const int16_t Height = 30;
+
+		    pointTempI.Y = Height / pointsTransformed[i].Y;	//y1a = -50 / tz1 : y1b =  50 / tz1
+		    pointTempJ.Y = Height / pointsTransformed[j].Y;	//y2a = -50 / tz2 : y2b =  50 / tz2
+
+		    //top
+		    arduboy.drawLine(screenCentre.X+pointTempI.X, screenCentre.Y - pointTempI.Y, screenCentre.X+pointTempJ.X, screenCentre.Y - pointTempJ.Y);
+		    //bottom
+		    arduboy.drawLine(screenCentre.X+pointTempI.X, screenCentre.Y + pointTempI.Y, screenCentre.X+pointTempJ.X, screenCentre.Y + pointTempJ.Y);
+		    //left
+		    arduboy.drawLine(screenCentre.X+pointTempI.X, screenCentre.Y - pointTempI.Y, screenCentre.X+pointTempI.X, screenCentre.Y + pointTempI.Y);
+		    //right
+		    arduboy.drawLine(screenCentre.X+pointTempJ.X, screenCentre.Y - pointTempJ.Y, screenCentre.X+pointTempJ.X, screenCentre.Y + pointTempJ.Y);
 		}
 	}
 
