@@ -40,22 +40,22 @@ void Game::Tick(void)
 	///Replace with 0.1 once set up with fixed points
 	if(arduboy->pressed(UP_BUTTON))
 	{
-		camera.AddPosition(PointI(0, -1));
-		//camera.AddPosition(PointI(1 * cos(camera.GetDirection().GetInteger()), 1 * sin(camera.GetDirection().GetInteger())));
+		//camera.AddPosition(PointI(0, -1));
+		camera.AddPosition(FixedPointQ8x8(1 * cos(camera.GetDirection().GetInteger()), 1 * sin(camera.GetDirection().GetInteger())));
 	}
 	if(arduboy->pressed(DOWN_BUTTON))
 	{
-		camera.AddPosition(PointI(0, 1));
-		//camera.AddPosition(PointI(-1 * cos(camera.GetDirection().GetInteger()), -1 * sin(camera.GetDirection().GetInteger())));
+		//camera.AddPosition(PointI(0, 1));
+		camera.AddPosition(FixedPointQ8x8(-1 * cos(camera.GetDirection().GetInteger()), -1 * sin(camera.GetDirection().GetInteger())));
 	}
 	if(arduboy->pressed(LEFT_BUTTON))
 	{
-		camera.AddPosition(PointI(-1, 0));
+		camera.AddPosition(FixedPointQ8x8(-1, 0));
 		//camera.AddDirection(-0.1);
 	}
 	if(arduboy->pressed(RIGHT_BUTTON))
 	{
-		camera.AddPosition(PointI(1, 0));
+		camera.AddPosition(FixedPointQ8x8(1, 0));
 		//camera.AddDirection(0.1);
 	}
 

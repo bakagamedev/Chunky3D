@@ -4,14 +4,14 @@
 class Camera
 {
 private:
-	PointI position;
+	FixedPointQ8x8 position;
 	Angle direction;
 
 	//FixedPointI position;		//To:do later
 public:
-	void AddPosition(const PointI add);
-	void SetPosition(const PointI position);
-	PointI GetPosition();
+	void AddPosition(const FixedPointQ8x8 add);
+	void SetPosition(const FixedPointQ8x8 position);
+	FixedPointQ8x8 GetPosition();
 
 	void AddDirection(Angle add);
 	void SetDirection(Angle angle);
@@ -31,17 +31,17 @@ Angle Camera::GetDirection()
 	return direction;
 }
 
-void Camera::AddPosition(const PointI add)
+void Camera::AddPosition(const FixedPointQ8x8 add)
 {
 	this->position.X += add.X;
 	this->position.Y += add.Y;
 }
-void Camera::SetPosition(const PointI position)
+void Camera::SetPosition(const FixedPointQ8x8 position)
 {
 	this->position = position;
 }
 
-PointI Camera::GetPosition()
+FixedPointQ8x8 Camera::GetPosition()
 {
 	return position;
 }

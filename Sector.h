@@ -54,7 +54,7 @@ uint8_t Sector::GetPortalCount(void) const
 
 void Sector::Draw(Camera & camera,System & arduboy)
 {
-	PointI cameraPosition = camera.GetPosition();		//Middle of screen
+	FixedPointQ8x8 cameraPosition = camera.GetPosition();		//Middle of screen
 	float cameraDirection = static_cast<float>(camera.GetDirection());//.GetInteger() + (camera.GetFraction() / 256);
 	//int8_t cameraDirection = camera.GetDirection().GetInteger();
 	PointI screenCentre = PointI(arduboy.width()/2,arduboy.height()/2);
@@ -116,7 +116,7 @@ void Sector::Draw(Camera & camera,System & arduboy)
 
 void Sector::Draw2D(Camera & camera,System & arduboy)
 {
-	PointI cameraPosition = camera.GetPosition();		//Middle of screen
+	FixedPointQ8x8 cameraPosition = camera.GetPosition();		//Middle of screen
 	float cameraDirection = static_cast<float>(camera.GetDirection());//.GetInteger() + (camera.GetFraction() / 256);
 	//int8_t cameraDirection = camera.GetDirection().GetInteger();
 	PointI screenCentre = PointI(arduboy.width()/2,arduboy.height()/2);
