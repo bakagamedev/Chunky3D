@@ -60,11 +60,11 @@ void Game::Tick(void)
 
 	if(arduboy->pressed(A_BUTTON))
 	{
-		camera.AddDirection(-0.1);
+		camera.AddDirection(+0.1);
 	}
 	if(arduboy->pressed(B_BUTTON))
 	{
-		camera.AddDirection(+0.1);
+		camera.AddDirection(-0.1);
 	}
 }
 
@@ -79,7 +79,7 @@ void Game::Draw(void)
 	arduboy->clear();
 
 	map.Draw(camera,*arduboy);
-	map.Draw2D(camera,*arduboy);
+	//map.Draw2D(camera,*arduboy);
 
 	arduboy->display();
 }
