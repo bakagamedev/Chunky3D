@@ -37,7 +37,7 @@ void Game::Load(void)
 
 void Game::Tick(void)
 {
-	float cameraDirection = static_cast<float>(camera.GetDirection()) * 3.14;
+	float cameraDirection = static_cast<float>(camera.GetDirection());// * (180 / 3.14);
 
 	if(arduboy->pressed(UP_BUTTON))
 	{
