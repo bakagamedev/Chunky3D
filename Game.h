@@ -78,7 +78,7 @@ void Game::Draw(void)
 	Tick();
 
 	arduboy->clear();
-	map.Draw2D(camera,*arduboy);
+	map.Draw(camera,*arduboy);
 
 	arduboy->display();
 }

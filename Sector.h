@@ -28,6 +28,7 @@ public:
 	
 	uint8_t GetPortalCount(void) const;
 	
+	void Draw(Camera & camera,System & arduboy);
 	void Draw2D(Camera & camera,System & arduboy);
 };
 	
@@ -51,6 +52,68 @@ uint8_t Sector::GetPortalCount(void) const
 	return this->portalCount;
 }
 
+void Sector::Draw(Camera & camera,System & arduboy)
+{
+	PointI cameraPosition = camera.GetPosition();		//Middle of screen
+	float cameraDirection = static_cast<float>(camera.GetDirection());//.GetInteger() + (camera.GetFraction() / 256);
+	//int8_t cameraDirection = camera.GetDirection().GetInteger();
+	PointI screenCentre = PointI(arduboy.width()/2,arduboy.height()/2);
+
+	//FixedPointQ8x8 pointsTransformed[this->pointCount];
+	FloatI pointsTransformed[this->pointCount];
+
+	for(uint8_t i=0; i < this->pointCount; ++i)
+	{
+		FloatI pointTemp = this->points[i];
+
+		//Translate to camera position
+		pointTemp = FloatI(pointTemp.X - cameraPosition.X, pointTemp.Y - cameraPosition.Y);
+
+		//Rotate around camera
+		pointsTransformed[i].X = (pointTemp.X*cos(cameraDirection)) - (pointTemp.Y * sin(cameraDirection));
+		pointsTransformed[i].Y = (pointTemp.X*sin(cameraDirection)) + (pointTemp.Y * cos(cameraDirection));
+
+	}
+
+	for(uint8_t i = 0, j = 1; i < this->pointCount; ++i, ++j)
+	{
+	    if(j == this->pointCount) j = 0;
+
+	    bool ok = true;
+	    if ((pointsTransformed[i].Y > 0) or (pointsTransformed[j].Y > 0))
+	    	ok = false;
+
+	    if(ok)
+	    {
+	    	FloatI pointTempI, pointTempJ;
+
+	    	//Stretch X coordinate horizontally on inverse of distance (FOV)
+	    	const int16_t FOV = 8;
+  
+	    	pointTempI.X = pointsTransformed[i].X * (FOV / pointsTransformed[i].Y);
+		    pointTempJ.X = pointsTransformed[j].X * (FOV / pointsTransformed[j].Y);
+
+		    //And vertically, for height;
+		    const int16_t Height = 30;
+
+		    pointTempI.Y = Height / pointsTransformed[i].Y;	//y1a = -50 / tz1 : y1b =  50 / tz1
+		    pointTempJ.Y = Height / pointsTransformed[j].Y;	//y2a = -50 / tz2 : y2b =  50 / tz2
+
+		    //top
+		    arduboy.drawLine(screenCentre.X+pointTempI.X, screenCentre.Y - pointTempI.Y, screenCentre.X+pointTempJ.X, screenCentre.Y - pointTempJ.Y);
+		    //bottom
+		    arduboy.drawLine(screenCentre.X+pointTempI.X, screenCentre.Y + pointTempI.Y, screenCentre.X+pointTempJ.X, screenCentre.Y + pointTempJ.Y);
+		    //left
+		    arduboy.drawLine(screenCentre.X+pointTempI.X, screenCentre.Y - pointTempI.Y, screenCentre.X+pointTempI.X, screenCentre.Y + pointTempI.Y);
+		    //right
+		    arduboy.drawLine(screenCentre.X+pointTempJ.X, screenCentre.Y - pointTempJ.Y, screenCentre.X+pointTempJ.X, screenCentre.Y + pointTempJ.Y);
+		}
+	}
+
+	arduboy.drawPixel(screenCentre.X,screenCentre.Y);
+}
+
+
 void Sector::Draw2D(Camera & camera,System & arduboy)
 {
 	PointI cameraPosition = camera.GetPosition();		//Middle of screen
@@ -66,7 +129,7 @@ void Sector::Draw2D(Camera & camera,System & arduboy)
 		FloatI pointTemp = this->points[i];
 
 		//Translate to camera position
-		pointTemp = FloatI(pointTemp.X - cameraPosition.X,pointTemp.Y = pointTemp.Y - cameraPosition.Y);
+		pointTemp = FloatI(pointTemp.X - cameraPosition.X, pointTemp.Y - cameraPosition.Y);
 
 		//Rotate around camera
 		pointsTransformed[i].X = (pointTemp.X*cos(cameraDirection)) - (pointTemp.Y * sin(cameraDirection));

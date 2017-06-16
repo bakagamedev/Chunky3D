@@ -24,9 +24,6 @@ void Map::Draw2D(Camera & camera,System & arduboy)
 	{
 		sectors[i].Draw2D(camera,arduboy);
 	}
-
-	//auto position = camera.GetPosition();
-	//arduboy.drawPixel(63,31);		
 }
 
 
@@ -34,6 +31,6 @@ void Map::Draw(Camera & camera,System & arduboy)
 {
 	for(uint8_t i = 0; i < this->sectorCount; ++i)
 	{
-		//sectors[i].Draw(camera,arduboy);
+		sectors[i].Draw(camera,arduboy);
 	}
 }
