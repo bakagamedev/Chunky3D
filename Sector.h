@@ -60,14 +60,14 @@ void Sector::Draw(Camera & camera,System & arduboy)
 	PointI screenCentre = PointI(arduboy.width()/2,arduboy.height()/2);
 
 	//FixedPointQ8x8 pointsTransformed[this->pointCount];
-	FloatI pointsTransformed[this->pointCount];
+	PointF pointsTransformed[this->pointCount];
 
 	for(uint8_t i=0; i < this->pointCount; ++i)
 	{
-		FloatI pointTemp = this->points[i];
+		PointF pointTemp = this->points[i];
 
 		//Translate to camera position
-		pointTemp = FloatI(pointTemp.X - cameraPosition.X, pointTemp.Y - cameraPosition.Y);
+		pointTemp = PointF(pointTemp.X - cameraPosition.X, pointTemp.Y - cameraPosition.Y);
 
 		//Rotate around camera
 		pointsTransformed[i].X = (pointTemp.X*cos(cameraDirection)) - (pointTemp.Y * sin(cameraDirection));
@@ -85,7 +85,7 @@ void Sector::Draw(Camera & camera,System & arduboy)
 
 	    if(ok)
 	    {
-	    	FloatI pointTempI, pointTempJ;
+	    	PointF pointTempI, pointTempJ;
 
 	    	//Stretch X coordinate horizontally on inverse of distance (FOV)
 	    	const int16_t FOV = 8;
@@ -122,14 +122,14 @@ void Sector::Draw2D(Camera & camera,System & arduboy)
 	PointI screenCentre = PointI(arduboy.width()/2,arduboy.height()/2);
 
 	//FixedPointQ8x8 pointsTransformed[this->pointCount];
-	FloatI pointsTransformed[this->pointCount];
+	PointF pointsTransformed[this->pointCount];
 
 	for(uint8_t i=0; i < this->pointCount; ++i)
 	{
-		FloatI pointTemp = this->points[i];
+		PointF pointTemp = this->points[i];
 
 		//Translate to camera position
-		pointTemp = FloatI(pointTemp.X - cameraPosition.X, pointTemp.Y - cameraPosition.Y);
+		pointTemp = PointF(pointTemp.X - cameraPosition.X, pointTemp.Y - cameraPosition.Y);
 
 		//Rotate around camera
 		pointsTransformed[i].X = (pointTemp.X*cos(cameraDirection)) - (pointTemp.Y * sin(cameraDirection));
