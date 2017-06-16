@@ -1,7 +1,7 @@
 #pragma once
 #include "Ardutils.h"
 
-using FixedPointQ8x8 = Ardutils::Point2<Ardutils::Q8x8>;
+using FixedPointQ8x8 = Ardutils::Point2<Ardutils::FixedPoint<7, 8>>;
 
 using PointI = Ardutils::Point2<uint8_t>;
 using PointF = Ardutils::Point2<float>;
