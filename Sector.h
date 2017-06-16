@@ -147,7 +147,4 @@ void Sector::Draw2D(Camera & camera,System & arduboy)
 		//arduboy.drawLine(pointsTransformed[i].X.GetInteger(), pointsTransformed[i].Y.GetInteger(), pointsTransformed[j].X.GetInteger(), pointsTransformed[j].Y.GetInteger());
 		arduboy.drawLine(pointsTransformed[i].X, pointsTransformed[i].Y, pointsTransformed[j].X, pointsTransformed[j].Y);
 	}
-
-	PointF cameraVector = PointF(cos(cameraDirection)*4, sin(cameraDirection*4));
-	arduboy.drawLine(screenCentre.X, screenCentre.Y, screenCentre.X + cameraVector.X, screenCentre.Y + cameraVector.Y);
 }

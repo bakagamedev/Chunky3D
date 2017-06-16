@@ -24,6 +24,9 @@ void Map::Draw2D(Camera & camera,System & arduboy)
 	{
 		sectors[i].Draw2D(camera,arduboy);
 	}
+	
+	PointF cameraVector = PointF(cos(cameraDirection)*4, sin(cameraDirection)*4);
+	arduboy.drawLine(screenCentre.X, screenCentre.Y, screenCentre.X + cameraVector.X, screenCentre.Y + cameraVector.Y);
 }
 
 
