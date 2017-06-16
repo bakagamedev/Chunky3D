@@ -93,7 +93,7 @@ void Sector::Draw(Camera & camera,System & arduboy)
 		    pointTempJ.X = pointsTransformed[j].X * (FOV / pointsTransformed[j].Y);
 
 		    //And vertically, for height;
-		    const int16_t Height = 24;
+		    const int16_t Height = 32;
 
 		    pointTempI.Y = Height / pointsTransformed[i].Y;
 		    pointTempJ.Y = Height / pointsTransformed[j].Y;
