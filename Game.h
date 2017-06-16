@@ -37,35 +37,32 @@ void Game::Load(void)
 
 void Game::Tick(void)
 {
-	///Replace with 0.1 once set up with fixed points
+	float cameraDirection = static_cast<float>(camera.GetDirection()) * 3.14;
+
 	if(arduboy->pressed(UP_BUTTON))
 	{
-		//camera.AddPosition(PointI(0, -1));
-		camera.AddPosition(FixedPointQ8x8(1 * cos(camera.GetDirection().GetInteger()), 1 * sin(camera.GetDirection().GetInteger())));
+		camera.AddPosition(FixedPointQ8x8(+cos(cameraDirection), +sin(cameraDirection)));
 	}
 	if(arduboy->pressed(DOWN_BUTTON))
 	{
-		//camera.AddPosition(PointI(0, 1));
-		camera.AddPosition(FixedPointQ8x8(-1 * cos(camera.GetDirection().GetInteger()), -1 * sin(camera.GetDirection().GetInteger())));
+		camera.AddPosition(FixedPointQ8x8(-cos(cameraDirection), -sin(cameraDirection)));
 	}
 	if(arduboy->pressed(LEFT_BUTTON))
 	{
-		camera.AddPosition(FixedPointQ8x8(-1, 0));
-		//camera.AddDirection(-0.1);
+		camera.AddPosition(FixedPointQ8x8(-cos(cameraDirection), +sin(cameraDirection)));
 	}
 	if(arduboy->pressed(RIGHT_BUTTON))
 	{
-		camera.AddPosition(FixedPointQ8x8(1, 0));
-		//camera.AddDirection(0.1);
+		camera.AddPosition(FixedPointQ8x8(+cos(cameraDirection), -sin(cameraDirection)));
 	}
 
 	if(arduboy->pressed(A_BUTTON))
 	{
-		camera.AddDirection(0.1);
+		camera.AddDirection(-0.1);
 	}
 	if(arduboy->pressed(B_BUTTON))
 	{
-		camera.AddDirection(-0.1);
+		camera.AddDirection(+0.1);
 	}
 }
 
@@ -78,7 +75,9 @@ void Game::Draw(void)
 	Tick();
 
 	arduboy->clear();
+
 	map.Draw(camera,*arduboy);
+	map.Draw2D(camera,*arduboy);
 
 	arduboy->display();
 }

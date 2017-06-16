@@ -72,7 +72,6 @@ void Sector::Draw(Camera & camera,System & arduboy)
 		//Rotate around camera
 		pointsTransformed[i].X = (pointTemp.X*cos(cameraDirection)) - (pointTemp.Y * sin(cameraDirection));
 		pointsTransformed[i].Y = (pointTemp.X*sin(cameraDirection)) + (pointTemp.Y * cos(cameraDirection));
-
 	}
 
 	for(uint8_t i = 0, j = 1; i < this->pointCount; ++i, ++j)
@@ -88,16 +87,16 @@ void Sector::Draw(Camera & camera,System & arduboy)
 	    	PointF pointTempI, pointTempJ;
 
 	    	//Stretch X coordinate horizontally on inverse of distance (FOV)
-	    	const int16_t FOV = 8;
+	    	const int16_t FOV = 64;
   
 	    	pointTempI.X = pointsTransformed[i].X * (FOV / pointsTransformed[i].Y);
 		    pointTempJ.X = pointsTransformed[j].X * (FOV / pointsTransformed[j].Y);
 
 		    //And vertically, for height;
-		    const int16_t Height = 30;
+		    const int16_t Height = 24;
 
-		    pointTempI.Y = Height / pointsTransformed[i].Y;	//y1a = -50 / tz1 : y1b =  50 / tz1
-		    pointTempJ.Y = Height / pointsTransformed[j].Y;	//y2a = -50 / tz2 : y2b =  50 / tz2
+		    pointTempI.Y = Height / pointsTransformed[i].Y;
+		    pointTempJ.Y = Height / pointsTransformed[j].Y;
 
 		    //top
 		    arduboy.drawLine(screenCentre.X+pointTempI.X, screenCentre.Y - pointTempI.Y, screenCentre.X+pointTempJ.X, screenCentre.Y - pointTempJ.Y);
@@ -132,8 +131,9 @@ void Sector::Draw2D(Camera & camera,System & arduboy)
 		pointTemp = PointF(pointTemp.X - cameraPosition.X, pointTemp.Y - cameraPosition.Y);
 
 		//Rotate around camera
-		pointsTransformed[i].X = (pointTemp.X*cos(cameraDirection)) - (pointTemp.Y * sin(cameraDirection));
-		pointsTransformed[i].Y = (pointTemp.X*sin(cameraDirection)) + (pointTemp.Y * cos(cameraDirection));
+		//pointsTransformed[i].X = (pointTemp.X*cos(cameraDirection)) - (pointTemp.Y * sin(cameraDirection));
+		//pointsTransformed[i].Y = (pointTemp.X*sin(cameraDirection)) + (pointTemp.Y * cos(cameraDirection));
+		pointsTransformed[i] = pointTemp;
 
 		//Translate back to screen centre.
 		pointsTransformed[i].X += screenCentre.X;
@@ -148,5 +148,6 @@ void Sector::Draw2D(Camera & camera,System & arduboy)
 		arduboy.drawLine(pointsTransformed[i].X, pointsTransformed[i].Y, pointsTransformed[j].X, pointsTransformed[j].Y);
 	}
 
-	arduboy.drawPixel(screenCentre.X,screenCentre.Y);
+	PointF cameraVector = PointF(cos(cameraDirection)*4, sin(cameraDirection*4));
+	arduboy.drawLine(screenCentre.X, screenCentre.Y, screenCentre.X + cameraVector.X, screenCentre.Y + cameraVector.Y);
 }
