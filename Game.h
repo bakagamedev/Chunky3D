@@ -37,35 +37,7 @@ void Game::Load(void)
 
 void Game::Tick(void)
 {
-	float cameraDirection = static_cast<float>(camera.GetDirection());// * (180 / 3.14);
-
-	if(arduboy->pressed(UP_BUTTON))
-	{
-		camera.AddPosition(FixedPointQ8x8(-cos(cameraDirection), -sin(cameraDirection)));
-	}
-	if(arduboy->pressed(DOWN_BUTTON))
-	{
-		camera.AddPosition(FixedPointQ8x8(+cos(cameraDirection), +sin(cameraDirection)));
-	}
-	/*
-	if(arduboy->pressed(LEFT_BUTTON))
-	{
-		camera.AddPosition(FixedPointQ8x8(-cos(cameraDirection), +sin(cameraDirection)));
-	}
-	if(arduboy->pressed(RIGHT_BUTTON))
-	{
-		camera.AddPosition(FixedPointQ8x8(+cos(cameraDirection), -sin(cameraDirection)));
-	}
-	*/
-
-	if(arduboy->pressed(A_BUTTON))
-	{
-		camera.AddDirection(-0.1);
-	}
-	if(arduboy->pressed(B_BUTTON))
-	{
-		camera.AddDirection(+0.1);
-	}
+	camera.Tick(*arduboy);
 }
 
 void Game::Draw(void)
@@ -79,7 +51,7 @@ void Game::Draw(void)
 	arduboy->clear();
 
 	map.Draw(camera,*arduboy);
-	map.Draw2D(camera,*arduboy);
+	//map.Draw2D(camera,*arduboy);
 
 	arduboy->display();
 }

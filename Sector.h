@@ -21,17 +21,34 @@ public:
 	Sector(void) : points(), pointCount(0), portals(), portalCount(0) {}
 	
 	const PointI & GetPoint(const uint8_t & index) const;
-	
 	uint8_t GetPointCount(void) const;
-	
-	const Portal & GetPortal(const uint8_t & index) const;
-	
+	const Portal & GetPortal(const uint8_t & index) const;	
 	uint8_t GetPortalCount(void) const;
+
+	bool Inside(PointI point) const;
 	
 	void Draw(Camera & camera,System & arduboy);
 	void Draw2D(Camera & camera,System & arduboy);
 };
 	
+bool Sector::Inside(PointI point) const
+{
+	/* Loop lines and check for intersections, if odd number, return true;*/
+	/*
+	uint8_t hits = 0;
+	for(uint8_t i=0, j=1; i<this->pointCount; ++i, ++j)
+	{
+	    if(j == this->pointCount) j = 0;
+
+	    if(LineLine(point,PointI(255,point.Y)))
+	    {
+			++hits;
+	    }
+	}
+	return hits&1;
+	*/
+}
+
 const PointI & Sector::GetPoint(const uint8_t & index) const
 {
 	return this->points[index];

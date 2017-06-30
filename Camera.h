@@ -16,7 +16,32 @@ public:
 	void AddDirection(Angle add);
 	void SetDirection(Angle angle);
 	Angle GetDirection();
+
+	void Tick(System &arduboy);
 };
+
+void Camera::Tick(System &arduboy)
+{
+	float cameraDirection = static_cast<float>(GetDirection());// * (180 / 3.14);
+
+	if(arduboy.pressed(UP_BUTTON))
+	{
+		AddPosition(FixedPointQ8x8(-cos(cameraDirection), -sin(cameraDirection)));
+	}
+	if(arduboy.pressed(DOWN_BUTTON))
+	{
+		AddPosition(FixedPointQ8x8(+cos(cameraDirection), +sin(cameraDirection)));
+	}
+
+	if(arduboy.pressed(A_BUTTON))
+	{
+		AddDirection(+0.1);
+	}
+	if(arduboy.pressed(B_BUTTON))
+	{
+		AddDirection(-0.1);
+	}
+}
 
 void Camera::AddDirection(Angle add)
 {
